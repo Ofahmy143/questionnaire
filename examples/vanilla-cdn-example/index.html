@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quiz Logic Flow - Vanilla JS (CDN) Example</title>
+    <!-- Using unpkg for latest version -->
+    <script src="https://unpkg.com/quiz-logic-flow"></script>
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/quiz-logic-flow/dist/style.css"
+    />
+    <!-- Alternative using jsDelivr -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/quiz-logic-flow"></script> -->
+    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/quiz-logic-flow/dist/style.css"> -->
+    <style>
+      /* Embed the common styles directly for CDN example */
+      :root {
+        --primary-color: #2563eb;
+        --primary-hover: #1d4ed8;
+        /* ... rest of the CSS variables ... */
+      }
+
+      /* ... rest of the common.css content ... */
+    </style>
+  </head>
+  <body>
+    <div class="app">
+      <h1>Developer Quiz (CDN Example)</h1>
+      <div id="quiz-container" class="quiz-container"></div>
+    </div>
+
+    <script>
+      const quizConfig = {
+        questions: [
+          { id: "1", text: "Do you enjoy coding?" },
+          { id: "2", text: "Are you familiar with JavaScript?" },
+          { id: "3", text: "Have you built web applications before?" },
+        ],
+        rules: [
+          {
+            type: "threshold",
+            minYes: 2,
+            outcome: "You seem to be an experienced developer!",
+          },
+          {
+            type: "conditional",
+            condition: (answers) => {
+              const coding = answers.find((a) => a.questionId === "1")?.value;
+              const js = answers.find((a) => a.questionId === "2")?.value;
+              return coding && js;
+            },
+            outcome: "You are a JavaScript developer!",
+          },
+        ],
+        onComplete: (results) => {
+          console.log("Quiz completed:", results);
+        },
+      };
+
+      // Initialize quiz when DOM is loaded
+      document.addEventListener("DOMContentLoaded", () => {
+        const container = document.getElementById("quiz-container");
+        const quiz = new QuizLogicFlow.QuizHandler(quizConfig, container);
+      });
+    </script>
+  </body>
+</html>
